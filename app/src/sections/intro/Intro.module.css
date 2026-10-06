@@ -1,0 +1,70 @@
+.intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Three viewports tall: the card stays pinned while hero, service and about pass over it. */
+.stickyWrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 300vh;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 1px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  transform: translate(-50%);
+}
+
+/* Phones: the card only sits behind the hero and scrolls away with it. */
+@media (max-width: 809.98px) {
+  .stickyWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .stickyContainer {
+    flex: none;
+    width: 100%;
+  }
+
+  .content {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+}
