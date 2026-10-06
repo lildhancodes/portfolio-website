@@ -1,0 +1,113 @@
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 144px;
+  height: 47px;
+  padding: 11px 46px 15px 40px;
+  border: 0;
+  border-radius: 99px;
+  background-color: rgb(51 51 51 / 0);
+  cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.44, 0, 0.56, 1);
+}
+
+/* Framer draws the outline as an inset ::after so it can animate to 0 width on hover */
+.button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-accent);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-width 0.2s cubic-bezier(0.44, 0, 0.56, 1);
+}
+
+.label {
+  color: var(--color-accent);
+  white-space: pre;
+  user-select: none;
+  transition: color 0.2s cubic-bezier(0.44, 0, 0.56, 1);
+}
+
+.button[data-status='idle']:is(:hover, :active) {
+  background-color: var(--color-accent);
+}
+
+.button[data-status='idle']:is(:hover, :active)::after {
+  border-width: 0;
+}
+
+.button[data-status='idle']:is(:hover, :active) .label {
+  color: var(--color-text-inverse);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.button:not([data-status='idle']) {
+  cursor: unset;
+}
+
+.button[data-status='pending'] {
+  background-color: var(--color-accent);
+}
+
+.button[data-status='error'] {
+  background-color: rgb(255 34 68 / 0.15);
+}
+
+.message {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: pre;
+  user-select: none;
+  /* Framer used white, which vanishes on the light theme's white page; --color-text is white in dark */
+  color: var(--color-text);
+}
+
+.button[data-status='error'] .message {
+  color: var(--color-red);
+}
+
+/* loading spinner: a conic gradient masked to a ring, spinning once per second */
+.spinner {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.spinner,
+.conic {
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
+  mask-mode: alpha;
+}
+
+.conic {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  background: conic-gradient(from 0deg at 50% 50%, rgb(0 0 0) 7.2deg, rgb(255 255 255) 342deg);
+}
+
+.rounding {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: rgb(255 255 255);
+  transform: translateX(-50%);
+}

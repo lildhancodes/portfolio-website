@@ -1,0 +1,92 @@
+/* Framer "Avatar Wrap" */
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* "Avatar Card Flip": both faces stacked in one 3D context */
+.flip {
+  position: relative;
+  width: 340px;
+  aspect-ratio: 0.714286;
+  transform: perspective(2000px);
+  transform-style: preserve-3d;
+}
+
+/* <Picture> wraps each face in <picture>; keep the img a direct 3D child of .flip */
+.flip > picture {
+  display: contents;
+}
+
+.face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: auto;
+  aspect-ratio: 0.714286;
+  max-width: none;
+  object-fit: cover;
+  border-radius: 20px;
+  will-change: transform;
+}
+
+.back {
+  transform: translate(-50%, -50%) perspective(1200px) rotateY(180deg);
+}
+
+.appearBack {
+  transform: translate(-50%, -50%) perspective(1200px) rotateX(180deg);
+  backface-visibility: hidden;
+}
+
+.front {
+  transform: translate(-50%, -50%) perspective(1200px);
+  backface-visibility: hidden;
+}
+
+/* The badge overlaps the card's bottom-left corner, 30px toward the viewer. */
+.badgeSlot {
+  position: absolute;
+  top: 99%;
+  left: 1%;
+  z-index: 10;
+  width: 120px;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) translateZ(30px);
+}
+
+.badgeMotion {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1399.98px) {
+  .flip,
+  .face {
+    width: 260px;
+  }
+
+  .badgeSlot {
+    width: 80px;
+  }
+}
+
+@media (max-width: 809.98px) {
+  .flip,
+  .face {
+    width: 180px;
+  }
+
+  .badgeSlot {
+    top: auto;
+    bottom: 30px;
+    left: -23px;
+    width: 50px;
+    transform: translateZ(30px);
+  }
+}

@@ -1,0 +1,169 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  width: 86%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 120px 40px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.lead {
+  max-width: 500px;
+}
+
+/* ---- grid: 3 columns (desktop), 4 (tablet), 1 (phone) ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(50px, 1fr));
+  grid-auto-rows: min-content;
+  gap: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.grid > * {
+  place-self: start;
+  width: 100%;
+}
+
+.grid > [data-tile='editing'] {
+  grid-column: span 2;
+}
+
+/* ---- step card ---- */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 380px;
+  padding: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--card-bg);
+}
+
+/* the dark-theme look is: white card, lime card, grey card */
+.toneInverse {
+  --card-bg: var(--color-text);
+  --card-ink: var(--color-text-inverse);
+}
+
+.toneAccent {
+  --card-bg: var(--color-accent);
+  --card-ink: var(--color-text-inverse);
+}
+
+.toneSurface {
+  --card-bg: var(--color-surface);
+  --card-ink: var(--color-text);
+}
+
+.card .cardInk {
+  color: var(--card-ink);
+}
+
+.card > .cardInk {
+  white-space: pre;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.cardText > * {
+  width: 100%;
+}
+
+/* ---- photo tile ---- */
+.photo {
+  position: relative;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.photoImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ---- tablet ---- */
+@media (max-width: 1399.98px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(50px, 1fr));
+  }
+
+  .grid > * {
+    grid-column: span 2;
+  }
+
+  .grid > [data-tile='editing'],
+  .grid > [data-tile='color'] {
+    height: 100%;
+  }
+
+  /* below desktop the feedback photo moves after card 03 */
+  .grid > [data-tile='editing'] {
+    order: 1;
+  }
+
+  .grid > [data-tile='feedback'],
+  .grid > [data-tile='color'],
+  .grid > [data-tile='delivery'] {
+    order: 2;
+  }
+
+  .grid > [data-tile='delivery'] {
+    grid-column: span 4;
+  }
+
+  .grid > [data-tile='testing'] {
+    display: none;
+  }
+
+  .card {
+    justify-content: flex-start;
+    gap: 20px;
+    min-height: 200px;
+  }
+}
+
+/* ---- phone ---- */
+@media (max-width: 809.98px) {
+  .section {
+    padding: 80px 20px;
+  }
+
+  .grid {
+    grid-template-columns: minmax(50px, 1fr);
+  }
+
+  .grid > *,
+  .grid > [data-tile='editing'],
+  .grid > [data-tile='delivery'] {
+    grid-column: span 1;
+  }
+
+  .photo {
+    height: 200px;
+  }
+}

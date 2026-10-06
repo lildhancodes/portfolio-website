@@ -1,0 +1,52 @@
+/*
+ * Color tokens. Light values are the base; dark values apply under [data-theme='dark'].
+ * The site defaults to dark (see the inline script in index.html), matching the Framer
+ * theme switch, which ignored the OS preference until the visitor toggled it.
+ *
+ * Framer token id → name (for reading the original export):
+ *   a9f688eb text          4795dafb bg            7d1fd828 text-muted
+ *   54672876 accent        861b2ae9 text-inverse  a228d207 border
+ *   cb6b9558 surface       dd08076e nav-bg        621c2752 surface-deep
+ *   1e4a4a22 text-soft     37ca97ef highlight     a3859f8f overlay
+ *   63c1aa9b red           4baed98b green         ffb0ff11 black   39a5a1be white
+ */
+:root {
+  --color-text: #303030;
+  --color-bg: #fff;
+  --color-text-muted: #8f8f8f;
+  --color-accent: #5e67e6;
+  --color-text-inverse: #fff;
+  --color-border: #dadada;
+  --color-surface: #f5f5f5;
+  --color-nav-bg: #ffffffe6;
+  --color-surface-deep: #dadada;
+  --color-text-soft: #8f8f8f;
+  --color-highlight: #000;
+  --color-overlay: #fff0;
+  --color-red: #f24;
+  --color-green: #0bde66;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --font-display: 'Antonio', 'Antonio Placeholder', sans-serif;
+  --font-body: 'Inter', 'Inter Placeholder', sans-serif;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --color-text: #fff;
+  --color-bg: #1a1a1b;
+  --color-text-muted: #b5b5b5;
+  --color-accent: #d0ff71;
+  --color-text-inverse: #303030;
+  --color-border: #5c5c5c;
+  --color-surface: #333;
+  --color-nav-bg: #0f0f0fe6;
+  --color-surface-deep: #0f0f0f;
+  --color-text-soft: #d4d4d4;
+  --color-highlight: #e3af20;
+  --color-overlay: #0f0f0f;
+
+  color-scheme: dark;
+}
