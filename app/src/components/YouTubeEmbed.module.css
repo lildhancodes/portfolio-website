@@ -1,0 +1,114 @@
+/* Same box as the Framer YT components: full width, fixed aspect, 40px radius (the instances'
+   radius prop), sitting at the top of its slide. */
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 40px;
+  background-color: #000;
+}
+
+.video {
+  aspect-ratio: 16 / 9;
+}
+
+.short {
+  aspect-ratio: 9 / 16;
+}
+
+.facade,
+.iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.facade {
+  display: block;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: transparent;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.facade:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -3px;
+}
+
+/* YouTube's 16:9 and letterboxed 4:3 thumbnails both crop to the picture; for shorts the 16:9
+   thumbnail's centre column is the vertical frame. */
+.thumb {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* Title strip in the style of the embed player's top bar. */
+.meta {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 30px 40px;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  font-family: var(--font-body);
+  pointer-events: none;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.channel {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
+.short .meta {
+  padding-inline: 24px;
+}
+
+.playVideo,
+.playShort {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.playVideo {
+  width: 68px;
+  height: 48px;
+}
+
+.playShort {
+  width: 64px;
+  height: 84px;
+}
+
+@media (max-width: 809.98px) {
+  .meta {
+    padding: 14px 24px 32px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+}
