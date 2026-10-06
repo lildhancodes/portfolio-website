@@ -1,0 +1,42 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 13;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  border-radius: 99px;
+  background-color: var(--color-accent);
+  pointer-events: none;
+  will-change: transform;
+  transition: background-color 0.3s;
+}
+
+.cursor[data-kind='blend'] {
+  mix-blend-mode: color-burn;
+}
+
+.cursor[data-kind='service'] {
+  background-color: transparent;
+}
+
+/* the four 195×114 images stacked; the wrapper's y picks one */
+.strip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 195px;
+}
+
+.strip picture,
+.image {
+  display: block;
+  flex: none;
+  width: 195px;
+  height: 114px;
+  object-fit: cover;
+}
