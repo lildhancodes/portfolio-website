@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { imagetools } from 'vite-imagetools'
 
 // Fonts that render above the fold. Their hashed URLs are only known after bundling,
 // so this plugin injects the <link rel="preload"> tags once the bundle exists.
@@ -31,7 +32,23 @@ function preloadCriticalFonts(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), preloadCriticalFonts()],
+  plugins: [
+    react(),
+    imagetools({
+      // `import x from './photo.jpg?picture'` → responsive AVIF + WebP sources with a fallback <img>.
+      // Widths larger than the source are dropped by imagetools, so small images stay small.
+      defaultDirectives: (url) =>
+        url.searchParams.has('picture')
+          ? new URLSearchParams({
+              w: '480;800;1200;1600',
+              // the fallback keeps the source format so PNG transparency survives
+              format: `avif;webp;${url.pathname.endsWith('.png') ? 'png' : 'jpg'}`,
+              as: 'picture',
+            })
+          : new URLSearchParams(),
+    }),
+    preloadCriticalFonts(),
+  ],
   build: {
     target: 'es2022',
     assetsInlineLimit: 0,
