@@ -1,5 +1,5 @@
-import { motion } from 'motion/react'
-import { useId, type ReactNode } from 'react'
+import { motion, useInView } from 'motion/react'
+import { useId, useRef, type ReactNode } from 'react'
 import { Slideshow } from '../../components/Slideshow'
 import styles from './ProjectShowcase.module.css'
 
@@ -18,10 +18,37 @@ type Props = {
 
 export function ProjectShowcase({ id, title, variant, slides }: Props) {
   const headingId = useId()
+  const shortSectionRef = useRef<HTMLElement>(null)
+  const shortSectionVisible = useInView(shortSectionRef, { once: true, amount: 0.1 })
+
+  const contents = (
+    <>
+      <h2 id={headingId} className={`t-display ${styles.heading}`}>
+        {title}
+      </h2>
+      <div className={styles.stage}>
+        <Slideshow slides={slides} label={title} />
+      </div>
+    </>
+  )
+
+  if (variant === 'short') {
+    return (
+      <section
+        ref={shortSectionRef}
+        id={id}
+        className={`${styles.section} ${styles.short} ${shortSectionVisible ? styles.shortVisible : ''}`}
+        aria-labelledby={headingId}
+      >
+        {contents}
+      </section>
+    )
+  }
+
   return (
     <motion.section
       id={id}
-      className={`${styles.section} ${variant === 'long' ? styles.long : styles.short}`}
+      className={`${styles.section} ${styles.long}`}
       aria-labelledby={headingId}
       initial={hidden}
       whileInView={shown}
@@ -29,12 +56,7 @@ export function ProjectShowcase({ id, title, variant, slides }: Props) {
       viewport={{ once: true, amount: 0 }}
       transition={appear}
     >
-      <h2 id={headingId} className={`t-display ${styles.heading}`}>
-        {title}
-      </h2>
-      <div className={styles.stage}>
-        <Slideshow slides={slides} label={title} />
-      </div>
+      {contents}
     </motion.section>
   )
 }

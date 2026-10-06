@@ -32,6 +32,26 @@
   --slideshow-items: 3;
 }
 
+/* Short Form reveals once with a small upward fade, then stays at its resting position. */
+.short {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.shortVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .short {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (max-width: 1399.98px) {
   .stage {
     width: 796px;
