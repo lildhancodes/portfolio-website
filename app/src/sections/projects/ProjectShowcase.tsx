@@ -21,7 +21,7 @@ export function ProjectShowcase({ id, title, variant, slides }: Props) {
         {title}
       </h2>
       <div className={styles.stage}>
-        <Slideshow slides={slides} label={title} effect={variant === 'long' ? 'depth' : 'reel'} />
+        <Slideshow slides={slides} label={title} effect={variant === 'long' ? 'depth' : 'depth-short'} />
       </div>
     </>
   )

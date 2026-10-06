@@ -58,10 +58,12 @@ type Props = {
   slides: readonly Slide[]
   label: string
   /** Use the Framer-style depth deck for the widescreen portfolio videos. */
-  effect?: 'reel' | 'depth'
+  effect?: 'reel' | 'depth' | 'depth-short'
 }
 
 export function Slideshow({ slides, label, effect = 'reel' }: Props) {
+  const depthMode = effect !== 'reel'
+  const portraitMode = effect === 'depth-short'
   const count = slides.length
   const trackRef = useRef<HTMLUListElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -131,7 +133,7 @@ export function Slideshow({ slides, label, effect = 'reel' }: Props) {
   // Consume only clearly horizontal motion; vertical gestures remain native page scrolling.
   useEffect(() => {
     const root = rootRef.current
-    if (!root || effect !== 'depth' || !size) return
+    if (!root || !depthMode || !size) return
 
     const onWheel = (event: WheelEvent) => {
       const horizontal = event.deltaX
@@ -166,7 +168,7 @@ export function Slideshow({ slides, label, effect = 'reel' }: Props) {
       if (wheelTimer.current) clearTimeout(wheelTimer.current)
       wheelActive.current = false
     }
-  }, [effect, rawX, size])
+  }, [depthMode, rawX, size])
 
   const go = (delta: number) => setIndex((i) => i + delta)
 
@@ -192,11 +194,32 @@ export function Slideshow({ slides, label, effect = 'reel' }: Props) {
   }
 
   const current = wrap(0, count, index)
+  const dots = (
+    <div className={styles.dots}>
+      {slides.map((slide, i) => (
+        <button
+          key={slide.key}
+          type="button"
+          className={styles.dotButton}
+          aria-label={`Scroll to page ${i + 1}`}
+          aria-current={i === current ? 'true' : undefined}
+          onClick={() => go(i - current)}
+        >
+          <motion.span
+            className={styles.dot}
+            initial={false}
+            animate={{ opacity: i === current ? 1 : 0.5 }}
+            transition={{ duration: 0.3 }}
+          />
+        </button>
+      ))}
+    </div>
+  )
   const rendered: ReactNode[] = []
   for (let copy = 0; copy < COPIES; copy++) {
     slides.forEach((slide, i) => {
       rendered.push(
-        <SlideItem key={`${copy}-${slide.key}`} x={x} size={size} counter={copy * count + i} depthMode={effect === 'depth'}>
+        <SlideItem key={`${copy}-${slide.key}`} x={x} size={size} counter={copy * count + i} depthMode={depthMode} portraitMode={portraitMode}>
           {slide.node}
         </SlideItem>,
       )
@@ -233,30 +256,22 @@ export function Slideshow({ slides, label, effect = 'reel' }: Props) {
           {rendered}
         </motion.ul>
       </div>
-      <div className={styles.controls} role="group" aria-label="Slideshow pagination controls">
-        <div className={styles.arrows}>
-          <ArrowButton direction="previous" onClick={() => go(-1)} />
-          <ArrowButton direction="next" onClick={() => go(1)} />
-        </div>
-        <div className={styles.dots}>
-          {slides.map((slide, i) => (
-            <button
-              key={slide.key}
-              type="button"
-              className={styles.dotButton}
-              aria-label={`Scroll to page ${i + 1}`}
-              aria-current={i === current ? 'true' : undefined}
-              onClick={() => go(i - current)}
-            >
-              <motion.span
-                className={styles.dot}
-                initial={false}
-                animate={{ opacity: i === current ? 1 : 0.5 }}
-                transition={{ duration: 0.3 }}
-              />
-            </button>
-          ))}
-        </div>
+      <div className={`${styles.controls} ${depthMode ? styles.depthControls : ''} ${portraitMode ? styles.portraitControls : ''}`} role="group" aria-label="Slideshow pagination controls">
+        {depthMode ? (
+          <>
+            <ArrowButton direction="previous" onClick={() => go(-1)} />
+            {dots}
+            <ArrowButton direction="next" onClick={() => go(1)} />
+          </>
+        ) : (
+          <>
+            <div className={styles.arrows}>
+              <ArrowButton direction="previous" onClick={() => go(-1)} />
+              <ArrowButton direction="next" onClick={() => go(1)} />
+            </div>
+            {dots}
+          </>
+        )}
       </div>
     </div>
   )
@@ -266,12 +281,13 @@ type SlideItemProps = {
   x: MotionValue<number>
   size: Size | null
   depthMode: boolean
+  portraitMode: boolean
   /** Position across all copies, which fixes where the slide sits on the track. */
   counter: number
   children: ReactNode
 }
 
-function SlideItem({ x, size, counter, depthMode, children }: SlideItemProps) {
+function SlideItem({ x, size, counter, depthMode, portraitMode, children }: SlideItemProps) {
   const item = size?.item ?? 0
   const parent = size?.parent ?? 0
   const offset = (item + GAP) * counter
@@ -280,7 +296,7 @@ function SlideItem({ x, size, counter, depthMode, children }: SlideItemProps) {
     if (!size) return 0
     return (offset + v + item / 2 - parent / 2) / pitch
   })
-  const depthState = useTransform(progress, (p) => getCardTransform(p, item, parent))
+  const depthState = useTransform(progress, (p) => getCardTransform(p, item, parent, portraitMode))
   // Motion uses degrees. A left card's right edge and a right card's left edge turn toward center.
   const depthRotateY = useTransform(depthState, (state) => state.rotateY)
   const reelRotateY = useTransform(progress, (p) => -Math.max(-1.48, Math.min(1.48, p * CARD_TILT)))
@@ -333,16 +349,22 @@ function centeredTarget(index: number, size: Size) {
   return (size.parent - size.item) / 2 - index * (size.item + GAP)
 }
 
-function getCardTransform(relativeIndex: number, cardWidth: number, viewportWidth: number): DepthCardTransform {
+function getCardTransform(relativeIndex: number, cardWidth: number, viewportWidth: number, portraitMode = false): DepthCardTransform {
   const distance = Math.abs(relativeIndex)
   const scale = interpolate(distance, [0, 1, 2, 3, 4, 5, 6], [1.25, 0.92, 0.81, 0.71, 0.62, 0.54, 0.47])
   const rotation = interpolate(distance, [0, 1, 2, 3, 4], [0, 15, 25, 29, 30])
-  const spacingCardWidth = viewportWidth > 809
+  const spacingCardWidth = portraitMode
+    ? cardWidth
+    : viewportWidth > 809
     ? Math.min(500, Math.max(400, viewportWidth * 0.3))
     : cardWidth
-  const horizontalStep = viewportWidth <= 600
-    ? Math.min(cardWidth * 0.95, viewportWidth * 0.84)
-    : spacingCardWidth * 0.54
+  const horizontalStep = portraitMode
+    ? viewportWidth <= 600
+      ? Math.min(cardWidth * 1.25, viewportWidth * 0.9)
+      : cardWidth * 1.35
+    : viewportWidth <= 600
+      ? Math.min(cardWidth * 0.95, viewportWidth * 0.84)
+      : spacingCardWidth * 0.54
   // Blur follows each card's live screen position, not its place in the video list.
   // p moves continuously during drag, so easing from the viewport centre to either edge
   // gives the whole deck a smooth horizontal depth-of-field gradient.
@@ -390,7 +412,7 @@ function ArrowButton({ direction, onClick }: { direction: 'previous' | 'next'; o
       <svg viewBox="0 0 40 40" aria-hidden="true">
         <path
           fill="none"
-          stroke="#fff"
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"

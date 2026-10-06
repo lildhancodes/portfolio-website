@@ -50,15 +50,25 @@
 /* Long-form videos use the Depth Carousel's cover-flow: a crisp front card with
    neighbours rotating and receding along a shared perspective arc. */
 .root[data-effect='depth'] {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   padding: 0;
   width: 100%;
-  overflow: clip;
+  height: 100%;
+  overflow: visible;
   perspective: 1250px;
   transform-style: preserve-3d;
 }
 
 .root[data-effect='depth'] .viewport {
-  overflow: clip;
+  position: relative;
+  inset: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  overflow: visible;
   perspective: inherit;
   transform-style: preserve-3d;
   perspective-origin: center center;
@@ -93,10 +103,6 @@
   cursor: grabbing;
 }
 
-.root[data-effect='depth'] .arrows {
-  display: none;
-}
-
 .root[data-effect='depth'] .dots {
   bottom: 14px;
   background: transparent;
@@ -105,6 +111,133 @@
 .root[data-effect='depth'] .dotButton,
 .root[data-effect='depth'] .dotButton:first-child,
 .root[data-effect='depth'] .dotButton:last-child {
+  padding: 14px 5px;
+}
+
+/* Portrait short-form frames share the long-form depth deck behavior. */
+.root[data-effect='depth-short'] {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100vw;
+  height: 100%;
+  overflow: visible;
+  perspective: 1250px;
+  transform-style: preserve-3d;
+}
+
+.root[data-effect='depth-short'] .viewport {
+  position: relative;
+  inset: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  overflow: visible;
+  perspective: inherit;
+  transform-style: preserve-3d;
+  perspective-origin: center center;
+}
+
+.root[data-effect='depth-short'] .track { gap: var(--slideshow-gap); transform-style: preserve-3d; }
+
+.root[data-effect='depth-short'] .depthSlide {
+  position: relative;
+  width: clamp(280px, calc(42vw - 20px), 360px);
+  height: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  filter: blur(var(--card-blur, 0px));
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.24);
+}
+
+.root[data-effect='depth-short'] .depthSlide > * {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+}
+
+.root[data-effect='depth'] .dot,
+.root[data-effect='depth-short'] .dot {
+  background-color: var(--color-text);
+}
+
+.root[data-effect='depth'] .depthControls .arrow,
+.root[data-effect='depth-short'] .portraitControls .arrow {
+  color: var(--color-text);
+  background-color: color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.root[data-effect='depth-short'] .depthSlide button { cursor: grab; }
+.root[data-effect='depth-short'] .track:active .depthSlide button { cursor: grabbing; }
+.root[data-effect='depth-short'] .arrows { display: none; }
+.root[data-effect='depth-short'] .dots { bottom: auto; background: transparent; }
+.root[data-effect='depth-short'] .dotButton,
+.root[data-effect='depth-short'] .dotButton:first-child,
+.root[data-effect='depth-short'] .dotButton:last-child { padding: 14px 5px; }
+
+.root[data-effect='depth'] .depthControls {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 48px;
+  transform: none;
+  pointer-events: auto;
+}
+
+.root[data-effect='depth'] .depthControls .arrows { display: contents; }
+
+.root[data-effect='depth'] .depthControls .arrow,
+.root[data-effect='depth-short'] .portraitControls .arrow {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.root[data-effect='depth'] .depthControls .dots {
+  position: relative;
+  inset: auto;
+  transform: none;
+  overflow: visible;
+}
+
+.root[data-effect='depth-short'] .portraitControls {
+  position: relative;
+  inset: auto;
+  left: auto;
+  display: flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 48px;
+  transform: none;
+  pointer-events: auto;
+}
+
+.root[data-effect='depth-short'] .portraitControls .arrow {
+  flex: none;
+}
+
+.root[data-effect='depth-short'] .portraitControls .dots {
+  position: relative;
+  left: auto;
+  transform: none;
+  overflow: visible;
+  flex: 0 1 auto;
+}
+
+.root[data-effect='depth-short'] .portraitControls .dotButton,
+.root[data-effect='depth-short'] .portraitControls .dotButton:first-child,
+.root[data-effect='depth-short'] .portraitControls .dotButton:last-child {
   padding: 14px 5px;
 }
 
@@ -217,6 +350,8 @@
   .root[data-effect='depth'] .dots {
     bottom: 0;
   }
+
+  .root[data-effect='depth-short'] .depthSlide { width: clamp(250px, 42vw, 320px); }
 }
 
 @media (max-width: 600px) {
@@ -224,4 +359,6 @@
     /* Leave room for the 1.25x center scale while keeping the active card near 85vw. */
     width: 68vw;
   }
+
+  .root[data-effect='depth-short'] .depthSlide { width: min(70vw, 290px); }
 }
