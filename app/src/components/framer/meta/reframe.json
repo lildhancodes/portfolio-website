@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "components": {
+    "rf_91322cce5b5ed80d0b215470": {
+      "id": "rf_91322cce5b5ed80d0b215470",
+      "name": "DepthCarousel",
+      "slug": "depth-carousel",
+      "version": 1,
+      "checksum": "ca189336c1398000c4252dccca847a8fd6550841ff0c4bec1b871f56db8481cf",
+      "format": "typescript",
+      "files": [
+        "components/depth-carousel.runtime.jsx",
+        "components/depth-carousel.jsx",
+        "components/depth-carousel.tsx",
+        "styles/depth-carousel.css",
+        "meta/components/depth-carousel.json"
+      ],
+      "installedAt": "2026-10-06T05:40:30.849Z"
+    }
+  }
+}

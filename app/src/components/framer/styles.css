@@ -1,0 +1,4 @@
+/* Reframe generated styles. Component styles are kept separate to avoid collisions. */
+@import "unframer/styles/reset.css";
+@import "unframer/styles/framer.css";
+@import "./styles/depth-carousel.css";

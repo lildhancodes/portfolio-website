@@ -1,6 +1,4 @@
-/* Framer layers "Long Form Slideshow" / "Short Form Slideshow". The slideshow boxes keep the
-   original's fixed sizes per page breakpoint; on phones they are wider than the screen and the
-   section clips them, which is what shows the neighbouring slides at the edges. */
+/* Each slideshow owns a responsive stage; the outer section clips the curved reel to the page. */
 .section {
   position: relative;
   display: flex;
@@ -10,6 +8,7 @@
   width: 100%;
   padding: 20px;
   overflow: clip;
+  transform-style: preserve-3d;
 }
 
 .heading {
@@ -20,32 +19,36 @@
   position: relative;
   z-index: 1;
   flex: none;
-  width: 1400px;
+  width: min(1400px, calc(100vw - 40px));
   height: 960px;
+  transform-style: preserve-3d;
 }
 
 .long .stage {
-  --slideshow-items: 1;
+  width: 100vw;
+  height: 600px;
+  --slideshow-items: 1.5;
 }
 
 .short .stage {
-  --slideshow-items: 3;
+  width: 100vw;
+  --slideshow-items: clamp(3, calc(100vw / 450), 5);
 }
 
-/* Short Form reveals once with a small upward fade, then stays at its resting position. */
-.short {
+/* Both slideshows enter once from the right, then stay at their resting position. */
+.section {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transform: translateX(120px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
 }
 
-.shortVisible {
+.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .short {
+  .section {
     opacity: 1;
     transform: none;
     transition: none;
@@ -54,16 +57,19 @@
 
 @media (max-width: 1399.98px) {
   .stage {
-    width: 796px;
-  }
-
-  .long .stage {
-    height: 603px;
+    width: min(1000px, calc(100vw - 40px));
+    --slideshow-items: 1.35;
+    height: 900px;
   }
 
   .short .stage {
+    width: min(1000px, calc(100vw - 40px));
     --slideshow-items: 2;
-    height: 821px;
+  }
+
+  .long .stage {
+    width: 100vw;
+    height: 500px;
   }
 }
 
@@ -88,7 +94,8 @@
   }
 
   .long .stage {
-    width: 455px;
+    width: 100vw;
+    --slideshow-items: 1.2;
     height: 336px;
   }
 
@@ -96,5 +103,16 @@
     --slideshow-items: 3;
     width: 973px;
     height: 615px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 809.98px) {
+  /* The larger focused card needs a little extra room above the pagination dots. */
+  .long {
+    height: 494px;
+  }
+
+  .long .stage {
+    height: 416px;
   }
 }

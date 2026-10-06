@@ -1,0 +1,69 @@
+{
+  "id": "rf_91322cce5b5ed80d0b215470",
+  "name": "DepthCarousel",
+  "slug": "depth-carousel",
+  "version": 1,
+  "checksum": "ca189336c1398000c4252dccca847a8fd6550841ff0c4bec1b871f56db8481cf",
+  "updatedAt": "2026-10-06T05:21:30.910Z",
+  "payload": {
+    "project": {
+      "id": "35514d8ccc1fd53d177591e2f6e11adb6d1d5ed8c1a21edc7d6b9eae8b09bd1b",
+      "name": "Creative Fairy",
+      "apiVersion1Id": "430220381"
+    },
+    "exporter": "reframe",
+    "components": [
+      {
+        "id": "aJzoV04WQ",
+        "name": "DepthCarousel",
+        "slug": "depth-carousel",
+        "source": "external",
+        "variants": [],
+        "moduleUrl": "https://framerusercontent.com/modules/KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js",
+        "componentIdentifier": "module:KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js:default"
+      }
+    ],
+    "generatedAt": "2026-10-06T05:21:28.131Z",
+    "schemaVersion": 1,
+    "framerProjectId": "35514d8ccc1fd53d177591e2f6e11adb6d1d5ed8c1a21edc7d6b9eae8b09bd1b",
+    "framerProjectName": "Creative Fairy",
+    "selectedComponent": {
+      "id": "aJzoV04WQ",
+      "name": "DepthCarousel",
+      "slug": "depth-carousel",
+      "source": "external",
+      "variants": [],
+      "moduleUrl": "https://framerusercontent.com/modules/KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js",
+      "componentIdentifier": "module:KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js:default"
+    },
+    "externalComponents": [
+      {
+        "id": "aJzoV04WQ",
+        "name": "DepthCarousel",
+        "slug": "depth-carousel",
+        "source": "external",
+        "variants": [],
+        "moduleUrl": "https://framerusercontent.com/modules/KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js",
+        "componentIdentifier": "module:KR5WTV4YF3yFcPKdOf9z/XOC6NPWNoiTAqdMS7bgQ/DepthCarousel.js:default"
+      },
+      {
+        "id": "S7iqTNGoL",
+        "name": "LiquidGlassCarousel",
+        "slug": "liquid-glass-carousel",
+        "source": "external",
+        "variants": [],
+        "moduleUrl": "https://framerusercontent.com/modules/ZbZFW0rSsvM2nIfFKaLY/kpCFFax8ciLkuLf0kMrs/liquid_glass_carousel.js",
+        "componentIdentifier": "module:ZbZFW0rSsvM2nIfFKaLY/kpCFFax8ciLkuLf0kMrs/liquid_glass_carousel.js:default"
+      }
+    ]
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "generatedRuntime": "depth-carousel.runtime.jsx",
+    "preservesDefaultProps": true,
+    "normalizedArrayProps": [
+      "slides"
+    ],
+    "sizedViewport": false
+  }
+}

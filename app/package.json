@@ -14,7 +14,8 @@
     "lottie-web": "^5.13.0",
     "motion": "^14.0.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "unframer": "npm:@reframejs/unframer@^4.2.0-reframe.1"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

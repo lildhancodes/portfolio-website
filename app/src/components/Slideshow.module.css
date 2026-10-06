@@ -1,6 +1,4 @@
-/* Framer Slideshow, with the arrow/dot options both project slideshows use: arrows spaced at the
-   sides (80px) and dots on a translucent pill; on phones (page breakpoint) the arrows sit
-   centred at the top (49px, 30px apart) and the dots drop below the slideshow without the pill. */
+/* Perspective reel viewport. Touch stays vertical so the page scrolls normally on phones. */
 .root {
   --slideshow-gap: 30px;
   position: relative;
@@ -14,8 +12,10 @@
   position: absolute;
   inset: 0;
   padding: inherit;
-  overflow: hidden;
-  perspective: 1200px;
+  overflow: visible;
+  perspective: 1400px;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
 }
 
 .track {
@@ -30,6 +30,7 @@
   transform-style: preserve-3d;
   cursor: grab;
   user-select: none;
+  touch-action: pan-y;
 }
 
 .track:active {
@@ -41,18 +42,84 @@
   flex-shrink: 0;
   width: calc(100% / var(--n) - var(--slideshow-gap) + var(--slideshow-gap) / var(--n));
   height: 100%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
   user-select: none;
+}
+
+/* Long-form videos use the Depth Carousel's cover-flow: a crisp front card with
+   neighbours rotating and receding along a shared perspective arc. */
+.root[data-effect='depth'] {
+  padding: 0;
+  width: 100%;
+  overflow: clip;
+  perspective: 1250px;
+  transform-style: preserve-3d;
+}
+
+.root[data-effect='depth'] .viewport {
+  overflow: clip;
+  perspective: inherit;
+  transform-style: preserve-3d;
+  perspective-origin: center center;
+}
+
+.root[data-effect='depth'] .track {
+  gap: var(--slideshow-gap);
+  transform-style: preserve-3d;
+}
+
+.root[data-effect='depth'] .depthSlide {
+  position: relative;
+  width: clamp(400px, 34.4vw, 660px);
+  height: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  filter: blur(var(--card-blur, 0px));
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.24);
+}
+
+.root[data-effect='depth'] .depthSlide > * {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+
+.root[data-effect='depth'] .depthSlide button {
+  cursor: grab;
+}
+
+.root[data-effect='depth'] .track:active .depthSlide button {
+  cursor: grabbing;
+}
+
+.root[data-effect='depth'] .arrows {
+  display: none;
+}
+
+.root[data-effect='depth'] .dots {
+  bottom: 14px;
+  background: transparent;
+}
+
+.root[data-effect='depth'] .dotButton,
+.root[data-effect='depth'] .dotButton:first-child,
+.root[data-effect='depth'] .dotButton:last-child {
+  padding: 14px 5px;
 }
 
 .controls {
   position: absolute;
   inset: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
 .arrows {
   position: absolute;
-  inset: 0;
+  inset: 100px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -124,9 +191,8 @@
 
 @media (max-width: 809.98px) {
   .arrows {
-    inset: 34px 0 auto;
-    justify-content: center;
-    gap: 30px;
+    inset: 100px 0 0;
+    justify-content: space-between;
   }
 
   .arrow {
@@ -142,5 +208,20 @@
   .dot {
     width: 9px;
     height: 9px;
+  }
+
+  .root[data-effect='depth'] .depthSlide {
+    width: min(56vw, 420px);
+  }
+
+  .root[data-effect='depth'] .dots {
+    bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .root[data-effect='depth'] .depthSlide {
+    /* Leave room for the 1.25x center scale while keeping the active card near 85vw. */
+    width: 68vw;
   }
 }
