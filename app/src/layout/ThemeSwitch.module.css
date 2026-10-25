@@ -1,7 +1,7 @@
 /* Framer "Theme Switch Dock": full-width fixed row, switch centred 20px above the bottom */
 .dock {
   position: fixed;
-  bottom: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
   left: 0;
   z-index: 10;
   display: flex;

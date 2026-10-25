@@ -1,0 +1,278 @@
+.section {
+  width: 100%;
+  padding: 24px 20px 64px;
+  overflow: clip;
+}
+
+.stage {
+  position: relative;
+  width: min(100%, 1240px);
+  height: clamp(300px, 32vw, 440px);
+  margin-inline: auto;
+  /* Keep title and moving items in one predictable z-index context. */
+  isolation: isolate;
+}
+
+.title {
+  position: absolute;
+  z-index: 30;
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(90px, 8.6vw, 124px);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.backLayer { z-index: 20; }
+.frontLayer { z-index: 40; }
+
+.item {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 62px;
+  height: 62px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.frontLayer .item { visibility: hidden; }
+
+.controls {
+  position: absolute;
+  z-index: 50;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.controlItem {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 62px;
+  height: 62px;
+  pointer-events: auto;
+}
+
+.tile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: 12px;
+  background: var(--color-surface);
+  box-shadow: 0 9px 28px color-mix(in srgb, var(--color-text) 16%, transparent);
+  transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.highlightedTile {
+  border-color: var(--color-accent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+
+.hitTarget {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
+.hitTarget:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.mark {
+  width: 48px;
+  height: 48px;
+  overflow: visible;
+}
+
+.letterMark {
+  fill: currentColor;
+  font-family: Arial, sans-serif;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -2px;
+}
+
+.afterEffects { color: #b997f6; }
+.premiere { color: #aa8bf4; }
+.photoshop { color: #63c4ff; }
+.illustrator { color: #f69d48; }
+.audition { color: #c98bf0; }
+.figma { color: #fff; }
+.generative { color: var(--color-accent); }
+
+.label {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  z-index: 110;
+  width: max-content;
+  max-width: min(230px, 72vw);
+  padding: 7px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: 0 5px 18px color-mix(in srgb, var(--color-text) 16%, transparent);
+  font-size: 12px;
+  line-height: 1.25;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -3px);
+  transition: opacity 150ms ease, transform 150ms ease;
+  visibility: hidden;
+}
+
+.hitTarget:hover .label,
+.hitTarget:focus-visible .label,
+.hitTarget[aria-pressed='true'] .label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
+
+.stage[data-static='true'] {
+  display: flex;
+  height: auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  perspective: none;
+}
+
+.stage[data-static='true'] .title {
+  position: relative;
+  inset: auto;
+  max-width: 100%;
+  transform: none;
+}
+
+.stage[data-static='true'] .track {
+  position: relative;
+  inset: auto;
+  width: 100%;
+}
+
+.stage[data-static='true'] .backLayer {
+  position: relative;
+  inset: auto;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.stage[data-static='true'] .frontLayer { display: none; }
+
+.stage[data-static='true'] .controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.stage[data-static='true'] .item,
+.stage[data-static='true'] .controlItem {
+  position: relative;
+  inset: auto;
+  width: 56px;
+  height: 56px;
+  left: auto !important;
+  top: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.stage[data-static='true'] .tile {
+  width: 56px;
+  height: 56px;
+}
+
+.stage[data-static='true'] .hitTarget {
+  width: 56px;
+  height: 56px;
+}
+
+/* On wide screens, let the animated path span the viewport rather than the text container. */
+@media (min-width: 1400px) {
+  .stage {
+    left: 50%;
+    width: 100vw;
+    max-width: none;
+    margin-inline: 0;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 809.98px) {
+  .section { padding: 28px 12px 44px; }
+  .stage { height: clamp(260px, 72vw, 330px); }
+  .item,
+  .controlItem,
+  .tile { width: 44px; height: 44px; }
+  .hitTarget { width: 44px; height: 44px; }
+  .tile { border-color: transparent; background: transparent; box-shadow: none; }
+  .mark { width: 24px; height: 24px; }
+  .title { font-size: clamp(40px, 11.8vw, 50px); }
+}
+
+@media (min-width: 810px) and (max-width: 1399.98px) {
+  .section { padding-top: 28px; }
+  .title { font-size: clamp(70px, 8.5vw, 100px); }
+  .item,
+  .controlItem,
+  .tile { width: 54px; height: 54px; }
+  .hitTarget { width: 54px; height: 54px; }
+  .mark { width: 40px; height: 40px; }
+}
+
+@media (max-width: 360px) {
+  .stage { height: 250px; }
+  .title { font-size: 38px; }
+}
+
+@media (min-width: 361px) and (max-width: 809.98px) {
+  .title { font-size: clamp(40px, 11.8vw, 50px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hitTarget,
+  .tile,
+  .label { transition: none; }
+}
