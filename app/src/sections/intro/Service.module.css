@@ -166,6 +166,13 @@
   }
 }
 
+@media (min-width: 810px) and (max-width: 1399.98px) {
+  .service {
+    align-items: flex-start;
+    padding-top: clamp(72px, 12vh, 132px);
+  }
+}
+
 @media (max-width: 809.98px) {
   .service {
     flex-direction: column;
@@ -173,7 +180,7 @@
   }
 
   .container {
-    padding: 80px 20px;
+    padding: 48px 20px 80px;
   }
 
   .column {

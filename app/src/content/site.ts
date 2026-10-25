@@ -7,9 +7,10 @@ export const site = {
   email: 'dhanish.work.one@gmail.com',
   phoneDisplay: '+91 8000590824',
   phoneHref: 'tel:+918000590824',
-  whatsapp: 'https://wa.link/ytk87y',
+  whatsapp: 'https://walink.me/cz4a6z',
   instagram: 'https://www.instagram.com/lil.dhann',
-  resume: 'https://drive.google.com/file/d/1Pnz8YP5D95kw2RqP0JBK4eiztb_5Unsp/view?usp=drive_link',
+  linkedin: 'https://www.linkedin.com/in/dhanish24sa/',
+  resume: 'https://drive.google.com/file/d/1s9-SABoe0igAx2UOmUf94nSUzF1WjBnr/view?usp=drive_link',
 } as const
 
 /** Section anchors, same ids as the Framer page so old deep links (/#contact) still work. */
@@ -17,6 +18,8 @@ export const sectionIds = {
   hero: 'hero',
   service: 'service',
   about: 'about',
+  technicalStack: 'technical-stack',
   longForm: 'long-form-project',
+  experience: 'experience',
   contact: 'contact',
 } as const

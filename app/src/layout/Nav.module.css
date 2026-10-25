@@ -336,6 +336,18 @@
 .prerenderMobile {
   display: contents;
 }
+
+@media (max-width: 600px) {
+  .anchor {
+    top: max(12px, env(safe-area-inset-top));
+    left: 12px;
+    right: 12px;
+  }
+
+  .anchor > .nav {
+    max-width: 100%;
+  }
+}
 @media (max-width: 1199.98px) {
   .prerenderDesktop {
     display: none;

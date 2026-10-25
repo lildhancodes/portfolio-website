@@ -126,7 +126,7 @@ function ServiceAccordion({
             strokeWidth="1.5"
             aria-hidden="true"
             initial={false}
-            animate={{ rotate: open ? 0 : 180 }}
+            animate={{ rotate: open ? 180 : 0 }}
             transition={SPRING}
           >
             <path d="M6 9l6 6 6-6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />

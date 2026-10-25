@@ -30,7 +30,7 @@
   transform-style: preserve-3d;
   cursor: grab;
   user-select: none;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
 }
 
 .track:active {
